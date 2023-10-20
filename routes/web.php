@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use Spatie\Permission\Models\Role;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,4 +20,12 @@ Route::get('/', function () {
 });
 Route::get('/test',function(){
     return Inertia::render('Test');
+});
+
+Route::get('create-role',function(){
+    Role::create(['name' => 'admin']);
+    Role::create(['name' => 'user']);
+    Role::create(['name' => 'society_admin']);
+    Role::create(['name' => 'society_cashier']);
+    Role::create(['name' => 'gatekeeper']);
 });
