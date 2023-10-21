@@ -2,8 +2,10 @@
 
 namespace App\Exceptions;
 
+use Exception;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Throwable;
+use Illuminate\Http\Request;
 
 class Handler extends ExceptionHandler
 {
@@ -23,8 +25,21 @@ class Handler extends ExceptionHandler
      */
     public function register(): void
     {
-        $this->reportable(function (Throwable $e) {
-            //
+
+        $this->renderable(function (Exception $exc, Request $request) {
+            // if ($request->is('api/*')) {
+            //     $message = '';
+            //     if ($exc->getCode() == 0 || $exc->getCode() == 500 || $exc->getCode() == null) {
+            //         $message = "Something went wrong.Please try again later";
+            //         $code = 500;
+            //     } else {
+            //         $message = $exc->getMessage();
+            //         $code = $exc->getCode();
+            //     }
+            //     return response()->json([
+            //         'message' => $message
+            //     ], $code);
+            // }
         });
     }
 }

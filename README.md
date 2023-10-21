@@ -64,3 +64,65 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+use Symfony\Component\HttpFoundation\Response;
+
+// Informational
+$statusCode = Response::HTTP_CONTINUE;
+$statusCode = Response::HTTP_SWITCHING_PROTOCOLS;
+
+// Successful
+$statusCode = Response::HTTP_OK;
+$statusCode = Response::HTTP_CREATED;
+$statusCode = Response::HTTP_ACCEPTED;
+$statusCode = Response::HTTP_NON_AUTHORITATIVE_INFORMATION;
+$statusCode = Response::HTTP_NO_CONTENT;
+$statusCode = Response::HTTP_RESET_CONTENT;
+$statusCode = Response::HTTP_PARTIAL_CONTENT;
+
+// Redirection
+$statusCode = Response::HTTP_MULTIPLE_CHOICES;
+$statusCode = Response::HTTP_MOVED_PERMANENTLY;
+$statusCode = Response::HTTP_FOUND;
+$statusCode = Response::HTTP_SEE_OTHER;
+$statusCode = Response::HTTP_NOT_MODIFIED;
+$statusCode = Response::HTTP_USE_PROXY;
+$statusCode = Response::HTTP_TEMPORARY_REDIRECT;
+$statusCode = Response::HTTP_PERMANENTLY_REDIRECT;
+
+// Client Error
+$statusCode = Response::HTTP_BAD_REQUEST;
+$statusCode = Response::HTTP_UNAUTHORIZED;
+$statusCode = Response::HTTP_PAYMENT_REQUIRED;
+$statusCode = Response::HTTP_FORBIDDEN;
+$statusCode = Response::HTTP_NOT_FOUND;
+$statusCode = Response::HTTP_METHOD_NOT_ALLOWED;
+$statusCode = Response::HTTP_NOT_ACCEPTABLE;
+$statusCode = Response::HTTP_PROXY_AUTHENTICATION_REQUIRED;
+$statusCode = Response::HTTP_REQUEST_TIMEOUT;
+$statusCode = Response::HTTP_CONFLICT;
+$statusCode = Response::HTTP_GONE;
+$statusCode = Response::HTTP_LENGTH_REQUIRED;
+$statusCode = Response::HTTP_PRECONDITION_FAILED;
+$statusCode = Response::HTTP_REQUEST_ENTITY_TOO_LARGE;
+$statusCode = Response::HTTP_REQUEST_URI_TOO_LONG;
+$statusCode = Response::HTTP_UNSUPPORTED_MEDIA_TYPE;
+$statusCode = Response::HTTP_REQUESTED_RANGE_NOT_SATISFIABLE;
+$statusCode = Response::HTTP_EXPECTATION_FAILED;
+$statusCode = Response::HTTP_I_AM_A_TEAPOT;
+$statusCode = Response::HTTP_UNPROCESSABLE_ENTITY;
+$statusCode = Response::HTTP_LOCKED;
+$statusCode = Response::HTTP_FAILED_DEPENDENCY;
+$statusCode = Response::HTTP_UPGRADE_REQUIRED;
+$statusCode = Response::HTTP_PRECONDITION_REQUIRED;
+$statusCode = Response::HTTP_TOO_MANY_REQUESTS;
+
+// Server Error
+$statusCode = Response::HTTP_INTERNAL_SERVER_ERROR;
+$statusCode = Response::HTTP_NOT_IMPLEMENTED;
+$statusCode = Response::HTTP_BAD_GATEWAY;
+$statusCode = Response::HTTP_SERVICE_UNAVAILABLE;
+$statusCode = Response::HTTP_GATEWAY_TIMEOUT;
+$statusCode = Response::HTTP_VERSION_NOT_SUPPORTED;
+$statusCode = Response::HTTP_NETWORK_AUTHENTICATION_REQUIRED;
+
