@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Models\Otp;
 use App\Services\OtpService;
 use Exception;
 use Illuminate\Http\JsonResponse;

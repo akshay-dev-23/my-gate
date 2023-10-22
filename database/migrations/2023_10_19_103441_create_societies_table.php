@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('societies', function (Blueprint $table) {
             $table->id();
             $table->string('name', 190);
-            $table->longText('decryption')->nullable();
+            $table->longText('description')->nullable();
             $table->string('code', 190);
             $table->string('address', 190);
             $table->string('state', 190);
