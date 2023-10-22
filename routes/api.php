@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\OtpController;
+use App\Http\Controllers\Api\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -22,5 +23,9 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::post('send-otp', [OtpController::class, 'sendOtp']);
 Route::post('verify-otp', [OtpController::class, 'verifyOTP']);
-Route::post('/register', [AuthController::class, 'register']);
-Route::post('/login', [AuthController::class, 'login']);
+Route::post('register', [AuthController::class, 'register']);
+Route::post('login', [AuthController::class, 'login']);
+Route::middleware(['auth:api','society_admin'])->group(function () {
+    Route::get('users', [UserController::class, 'index']);
+    Route::post('verify-user', [UserController::class, 'verifyUser']);
+});

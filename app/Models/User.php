@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Hash;
 // use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 use Laravel\Passport\HasApiTokens;
+use Spatie\Permission\Models\Role;
 
 class User extends Authenticatable
 {
@@ -52,7 +53,18 @@ class User extends Authenticatable
 
     public function setPasswordAttribute($value)
     {
-
         $this->attributes['password'] = Hash::make($value);
+    }
+
+    public function society()
+    {
+        return $this->belongsTo(Society::class, 'society_id', 'id');
+    }
+
+    public function scopeSocietyUser($query, $society_id, $auth_user_id)
+    {
+       return $query->whereHas('roles', function ($query) {
+            $query->whereIn('name', ['user']);
+        })->where('society_id', $society_id)->where('id', '!=', $auth_user_id);
     }
 }
