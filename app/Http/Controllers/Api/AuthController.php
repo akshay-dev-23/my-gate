@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\UserResource;
 use App\Models\Society;
 use Illuminate\Http\Request;
 use App\Models\User;
@@ -17,20 +18,14 @@ class AuthController extends Controller
 {
     public function register(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'mobile_number' => 'required|string|unique:users|max:10',
-            'password' => 'required|string|min:6|max:10',
-            'society_code' => 'required|string',
-            'name' => 'required|string|max:20',
-            'flat_no' => 'required|string|max:10'
-        ]);
+        $validator = Validator::make($request->all(), $this->getRegisterValidation());
         if ($validator->fails())
             throw new Exception($validator->errors()->first(), Response::HTTP_BAD_REQUEST);
         $society = Society::where('code', $request->society_code)->first();
         if (!$society) throw new Exception("Invalid society code.", Response::HTTP_BAD_REQUEST);
         $user = User::create($this->getUserData($request->only('mobile_number', 'password', 'name', 'flat_no'), $society->id));
         $user->assignRole('user');
-        return response()->json(['message' => 'Successfully registered.'], 200);
+        return $this->successResponse("Successfully registered.");
     }
 
     /**
@@ -41,14 +36,15 @@ class AuthController extends Controller
      */
     public function login(Request $request)
     {
+        $validator = Validator::make($request->all(), ['mobile_number' => 'required', 'password' => 'required']);
+        if ($validator->fails())
+            throw new Exception($validator->errors()->first(), Response::HTTP_BAD_REQUEST);
         $credentials = $request->only('mobile_number', 'password');
-        if (Auth::attempt($credentials)) {
-            $user = Auth::user();
-            if (!$user->verified) throw new Exception("Account not verified. Please connect to admin to verify the account.", Response::HTTP_FORBIDDEN);
-            $token = $user->createToken('MyApp')->accessToken;
-            return response()->json(['access_token' => $token], 200);
-        }
-        return response()->json(['message' => 'Invalid credentials'], 401);
+        if (!Auth::attempt($credentials)) throw new Exception('Invalid credentials', Response::HTTP_BAD_REQUEST);
+        $user = Auth::user();
+        if (!$user->verified) throw new Exception("Account not verified. Please connect to admin to verify the account.", Response::HTTP_FORBIDDEN);
+        $token = $user->createToken('MyApp')->accessToken;
+        return $this->successResponse("Login successful.", ['access_token' => $token, 'user' => new UserResource($user)]);
     }
 
     /**
@@ -62,5 +58,20 @@ class AuthController extends Controller
         $request_data['society_id'] = $society_id;
         $request_data['verified'] = false;
         return $request_data;
+    }
+
+    /**
+     * This function is used to register validation
+     * @return string[] 
+     */
+    private function getRegisterValidation()
+    {
+        return [
+            'mobile_number' => 'required|string|unique:users|max:10',
+            'password' => 'required|string|min:6|max:10',
+            'society_code' => 'required|string',
+            'name' => 'required|string|max:20',
+            'flat_no' => 'required|string|max:10'
+        ];
     }
 }
