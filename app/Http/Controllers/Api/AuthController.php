@@ -36,12 +36,13 @@ class AuthController extends Controller
      */
     public function login(Request $request)
     {
+
         $validator = Validator::make($request->all(), ['mobile_number' => 'required', 'password' => 'required']);
         if ($validator->fails())
             throw new Exception($validator->errors()->first(), Response::HTTP_BAD_REQUEST);
         $credentials = $request->only('mobile_number', 'password');
         if (!Auth::attempt($credentials)) throw new Exception('Invalid credentials', Response::HTTP_BAD_REQUEST);
-        $user = Auth::user();
+        $user = Auth::user()->load(['roles']);
         if (!$user->verified) throw new Exception("Account not verified. Please connect to admin to verify the account.", Response::HTTP_FORBIDDEN);
         $token = $user->createToken('MyApp')->accessToken;
         return $this->successResponse("Login successful.", ['access_token' => $token, 'user' => new UserResource($user)]);
