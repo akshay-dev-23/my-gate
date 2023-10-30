@@ -28,4 +28,5 @@ Route::get('create-role',function(){
     Role::create(['name' => 'society_admin']);
     Role::create(['name' => 'society_cashier']);
     Role::create(['name' => 'gatekeeper']);
+    echo "success";
 });
