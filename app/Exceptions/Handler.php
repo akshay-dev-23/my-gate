@@ -33,8 +33,7 @@ class Handler extends ExceptionHandler
                 if ($exc instanceof \Illuminate\Auth\AuthenticationException) {
                     $message = 'Unauthenticated.';
                     $code = 401;
-                }
-                else if ($exc->getCode() == 0 || $exc->getCode() == 500 || $exc->getCode() == null) {
+                } else if ($exc->getCode() == 0 || $exc->getCode() == 500 || $exc->getCode() == null) {
                     $message = "Something went wrong. Please try again later.";
                     $code = 500;
                 } else {
@@ -43,7 +42,8 @@ class Handler extends ExceptionHandler
                 }
                 return response()->json([
                     'message' => $message,
-                    'data' => []
+                    'data' => [],
+                    'status_code' => $code
                 ], $code);
             }
         });
