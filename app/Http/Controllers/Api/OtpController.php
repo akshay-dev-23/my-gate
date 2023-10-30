@@ -29,6 +29,8 @@ class OtpController extends Controller
         if ($validator->fails())
             throw new Exception($validator->errors()->first(), Response::HTTP_BAD_REQUEST);
         $otp = $otpService->generateOTP();
+        // delete all previous opts
+        $otpService->revokeAllOtp($request->mobile_number);
         if (!$otpService->sendOTP($request->mobile_number, $otp))
             throw new Exception('Otp not send.Please try again.', Response::HTTP_INTERNAL_SERVER_ERROR);
         $otpService->storeOTP($request->mobile_number, $otp);

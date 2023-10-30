@@ -50,5 +50,15 @@ class OtpService
         }
         return false;
     }
+
+    /**
+     * This function is used to revoke all the mobile otps
+     * @param mixed $mobile_number 
+     * @return mixed 
+     */
+    public function revokeAllOtp($mobile_number)
+    {
+      return  Otp::where(['mobile_number' => $mobile_number])->delete();
+    }
     
 }
