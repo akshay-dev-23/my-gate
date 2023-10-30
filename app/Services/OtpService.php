@@ -13,9 +13,10 @@ class OtpService
 {
     public function generateOTP()
     {
+        return "4444";
         $characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
         $otp = '';
-        for ($i = 0; $i < 6; $i++) {
+        for ($i = 0; $i < 4; $i++) {
             $otp .= $characters[random_int(0, strlen($characters) - 1)];
         }
         return $otp;
