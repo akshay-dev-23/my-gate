@@ -25,7 +25,8 @@ class AuthController extends Controller
         if (!$society) throw new Exception("Invalid society code.", Response::HTTP_BAD_REQUEST);
         $user = User::create($this->getUserData($request->only('mobile_number', 'password', 'name', 'flat_no'), $society->id));
         $user->assignRole('user');
-        return $this->successResponse("Successfully registered.");
+        $token = $user->createToken('MyApp')->accessToken;
+        return $this->successResponse("Successfully registered.", ['access_token' => $token, 'user' => new UserResource($user)]);
     }
 
     /**
@@ -43,7 +44,6 @@ class AuthController extends Controller
         $credentials = $request->only('mobile_number', 'password');
         if (!Auth::attempt($credentials)) throw new Exception('Invalid credentials', Response::HTTP_BAD_REQUEST);
         $user = Auth::user()->load(['roles']);
-        if (!$user->verified) throw new Exception("Account not verified. Please connect to admin to verify the account.", Response::HTTP_FORBIDDEN);
         $token = $user->createToken('MyApp')->accessToken;
         return $this->successResponse("Login successful.", ['access_token' => $token, 'user' => new UserResource($user)]);
     }
@@ -69,7 +69,7 @@ class AuthController extends Controller
     {
         return [
             'mobile_number' => 'required|string|unique:users|max:10',
-            'password' => 'required|string|min:6|max:10',
+            'password' => 'required|string|min:6|max:20',
             'society_code' => 'required|string',
             'name' => 'required|string|max:20',
             'flat_no' => 'required|string|max:10'
