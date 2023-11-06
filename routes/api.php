@@ -25,7 +25,8 @@ Route::post('send-otp', [OtpController::class, 'sendOtp']);
 Route::post('verify-otp', [OtpController::class, 'verifyOTP']);
 Route::post('register', [AuthController::class, 'register']);
 Route::post('login', [AuthController::class, 'login']);
-Route::middleware(['auth:api','society_admin'])->group(function () {
+Route::middleware(['auth:api', 'society_admin'])->group(function () {
     Route::get('users', [UserController::class, 'index']);
+    Route::get('user/auth', [UserController::class, 'authUser']);
     Route::post('verify-user', [UserController::class, 'verifyUser']);
 });

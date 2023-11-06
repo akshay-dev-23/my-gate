@@ -21,6 +21,9 @@ Route::get('/', function () {
 Route::get('/test',function(){
     return Inertia::render('Test');
 });
+Route::get('login',function(){
+    return Inertia::render('Auth/Login');
+})->name('login');
 
 Route::get('create-role',function(){
     Role::create(['name' => 'admin']);

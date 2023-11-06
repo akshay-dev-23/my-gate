@@ -8,6 +8,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\UserResource;
 use App\Models\User;
 use Exception;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
@@ -23,6 +25,13 @@ class UserController extends Controller
         return $this->successResponse("Members listing", UserResource::collection($users));
     }
 
+    /**
+     * This api used to verify the user
+     * @param Request $request 
+     * @return JsonResponse 
+     * @throws Exception 
+     * @throws BindingResolutionException 
+     */
     public function verifyUser(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -36,5 +45,16 @@ class UserController extends Controller
         $user->verified = $request->verify;
         $user->save();
         return $this->successResponse("Status changed successfully.");
+    }
+
+    /**
+     * This is api call to send the user details in response
+     * @return JsonResponse 
+     * @throws BindingResolutionException 
+     */
+    public function authUser()
+    {
+        $user = Auth::user()->load(['roles']);
+        return $this->successResponse("Login successful.", ['user' => new UserResource($user)]);
     }
 }
