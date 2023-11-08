@@ -44,7 +44,7 @@ class Handler extends ExceptionHandler
                     'message' => $message,
                     'data' => [],
                     'status_code' => $code
-                ], $code);
+                ], (int)$code);
             }
         });
     }
