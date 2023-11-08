@@ -95,7 +95,7 @@ class AuthController extends Controller
     private function getRegisterValidation()
     {
         return [
-            'mobile_number' => 'required|string|unique:users|max:10',
+            'mobile_number' => 'required|string|unique:users|max:15',
             'password' => 'required|string|min:6|max:20',
             'society_code' => 'required|string',
             'name' => 'required|string|max:20',

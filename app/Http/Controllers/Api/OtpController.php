@@ -31,7 +31,7 @@ class OtpController extends Controller
         $otp = $otpService->generateOTP();
         // delete all previous opts
         $otpService->revokeAllOtp($request->mobile_number);
-        if (!$otpService->sendOTP($request->mobile_number, $otp))
+        if (!$otpService->sendOTP($request->mobile_number, $otpService->authMessage($otp)))
             throw new Exception('Otp not send.Please try again.', Response::HTTP_INTERNAL_SERVER_ERROR);
         $otpService->storeOTP($request->mobile_number, $otp);
         return $this->successResponse("Otp sent successfully");
@@ -51,7 +51,7 @@ class OtpController extends Controller
         ]);
         if ($validator->fails())
             throw new Exception($validator->errors()->first(), Response::HTTP_BAD_REQUEST);
-        $otpService->verifyOTP($request->mobile_number,$request->otp_code);
+        $otpService->verifyOTP($request->mobile_number, $request->otp_code);
         return $this->successResponse("Otp verified successfully.");
     }
 }

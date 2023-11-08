@@ -28,7 +28,7 @@ class OtpService
         return $otp;
     }
 
-    private function getAuthMessage($otp)
+    public function authMessage($otp)
     {
         $otp_expire_time = Otp::OTP_EXPIRE_TIME_MINUTES;
         return "Your OTP is $otp .It will be valid for $otp_expire_time minutes only.";
