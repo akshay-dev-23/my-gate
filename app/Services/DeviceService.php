@@ -14,8 +14,9 @@ class DeviceService
      * @param Request $request 
      * @return bool 
      */
-    public function register($user_id, Request $request)
+    public function register($user_id)
     {
+        $request = request();
         $platform = $request->header('Platform', null);
         $device_token = $request->header('Device-Token', null);
         DeviceToken::where('user_id', $user_id)->delete();
