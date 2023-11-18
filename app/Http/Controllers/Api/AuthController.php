@@ -28,7 +28,7 @@ class AuthController extends Controller
      * @throws Exception 
      * @throws BindingResolutionException 
      */
-    public function register(Request $request, DeviceService $device)
+    public function register(Request $request)
     {
         $validator = Validator::make($request->all(), $this->getRegisterValidation());
         if ($validator->fails())
@@ -37,7 +37,7 @@ class AuthController extends Controller
         if (!$society) throw new Exception("Invalid society code.", Response::HTTP_BAD_REQUEST);
         $user = User::create($this->getUserData($request->only('mobile_number', 'password', 'name', 'flat_no'), $society->id));
         $user->assignRole('user');
-        $device->register($user->id);
+        DeviceService::register($user->id);
         $token = $user->createToken('MyApp')->accessToken;
         return $this->successResponse("Successfully registered.", ['access_token' => $token, 'user' => new UserResource($user)]);
     }
@@ -48,7 +48,7 @@ class AuthController extends Controller
      * @return JsonResponse 
      * @throws BindingResolutionException 
      */
-    public function login(Request $request, DeviceService $device)
+    public function login(Request $request)
     {
         $validator = Validator::make($request->all(), ['mobile_number' => 'required', 'password' => 'required']);
         if ($validator->fails())
@@ -57,7 +57,7 @@ class AuthController extends Controller
         if (!Auth::attempt($credentials)) throw new Exception('Invalid credentials', Response::HTTP_BAD_REQUEST);
         $user = Auth::user()->load(['roles']);
         $this->revokeToken($user->id);
-        $device->register($user->id);
+        DeviceService::register($user->id);
         $token = $user->createToken('MyApp')->accessToken;
         return $this->successResponse("Login successful.", ['access_token' => $token, 'user' => new UserResource($user)]);
     }

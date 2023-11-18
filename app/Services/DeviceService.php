@@ -14,7 +14,7 @@ class DeviceService
      * @param Request $request 
      * @return bool 
      */
-    public function register($user_id)
+    public static function register($user_id)
     {
         $request = request();
         $platform = $request->header('Platform', null);
@@ -22,7 +22,7 @@ class DeviceService
         DeviceToken::where('user_id', $user_id)->delete();
         DeviceToken::create([
             'user_id' => $user_id, // If you want to associate the token with a user
-            'token' => $device_token,
+            'device_token' => $device_token,
             'platform' => $platform,
         ]);
         return true;
@@ -33,7 +33,7 @@ class DeviceService
      * @param mixed $user_id 
      * @return bool 
      */
-    public function delete($user_id)
+    public static function delete($user_id)
     {
         DeviceToken::where('user_id', $user_id)->delete();
         return true;
