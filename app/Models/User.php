@@ -63,8 +63,13 @@ class User extends Authenticatable
 
     public function scopeSocietyUser($query, $society_id, $auth_user_id)
     {
-       return $query->whereHas('roles', function ($query) {
+        return $query->whereHas('roles', function ($query) {
             $query->whereIn('name', ['user']);
         })->where('society_id', $society_id)->where('id', '!=', $auth_user_id);
+    }
+
+    public function device()
+    {
+        return $this->hasMany(DeviceToken::class, 'user_id');
     }
 }

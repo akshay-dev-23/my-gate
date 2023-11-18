@@ -34,6 +34,10 @@ return [
         'sid' => env('TWILIO_SID'),
         'token' => env('TWILIO_AUTH_TOKEN'),
         'phone_number' => env('TWILIO_PHONE_NUMBER'),
-    ],    
+    ],
+    'fcm' => [
+        'admin_server_key' => env('FCM_ADMIN_SERVER_KEY'),
+        'user_server_key' => env('FCM_USER_SERVER_KEY')
+    ]
 
 ];

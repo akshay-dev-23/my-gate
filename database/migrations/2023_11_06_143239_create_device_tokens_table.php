@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->string('platform', 10)->nullable();
-            $table->string('device_token', 100)->nullable();
+            $table->string('device_token', 1000)->nullable();
             $table->timestamps();
         });
     }
