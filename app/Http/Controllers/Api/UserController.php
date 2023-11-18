@@ -7,6 +7,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\UserResource;
 use App\Models\User;
+use App\Services\FcmService;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Contracts\Container\BindingResolutionException;
@@ -45,6 +46,7 @@ class UserController extends Controller
         if (!$user) throw new Exception("Record not found", Response::HTTP_NOT_FOUND);
         $user->verified = $request->verify;
         $user->save();
+        FcmService::accountStatusChangeNotification($user, $request->verify);
         return $this->successResponse("Status changed successfully.");
     }
 

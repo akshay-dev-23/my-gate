@@ -8,10 +8,19 @@ use App\Models\User;
 use Psr\Container\NotFoundExceptionInterface;
 use Psr\Container\ContainerExceptionInterface;
 use GuzzleHttp\Exception\GuzzleException;
+use Psr\Http\Message\ResponseInterface;
 
 class FcmService
 {
-    public function send($user_fcm_token, $fcm_server_key, array $data)
+    /**
+     * This function is used to call the api internally
+     * @param mixed $user_fcm_token 
+     * @param mixed $fcm_server_key 
+     * @param array $data 
+     * @return ResponseInterface 
+     * @throws GuzzleException 
+     */
+    private static function send($user_fcm_token, $fcm_server_key, array $data)
     {
         $request_body = [
             'headers' => ['Content-Type' => 'application/json', 'authorization' => 'Bearer ' . $fcm_server_key],
@@ -22,20 +31,20 @@ class FcmService
         ];
         $client = new \GuzzleHttp\Client();
         $url = "https://fcm.googleapis.com/fcm/send";
-        $res = $client->request('POST', $url, $request_body);
+        return $client->request('POST', $url, $request_body);
     }
 
 
-/**
- * This function is used to send the account status change notification to user
- * @param User $user 
- * @param mixed $is_verified 
- * @return bool 
- * @throws NotFoundExceptionInterface 
- * @throws ContainerExceptionInterface 
- * @throws GuzzleException 
- */
-    public function accountStatusChangeNotification(User $user, $is_verified)
+    /**
+     * This function is used to send the account status change notification to user
+     * @param User $user 
+     * @param mixed $is_verified 
+     * @return bool 
+     * @throws NotFoundExceptionInterface 
+     * @throws ContainerExceptionInterface 
+     * @throws GuzzleException 
+     */
+    public static function accountStatusChangeNotification(User $user, $is_verified)
     {
         if ($is_verified) {
             $title = 'Account Verified.';
@@ -56,7 +65,7 @@ class FcmService
             if ($devices->count() == 0) return false;
             foreach ($devices as $device) {
                 if ($device->device_token == null) continue;
-                $this->send($device->device_token, $fcm_server_key, $data);
+                self::send($device->device_token, $fcm_server_key, $data);
             }
             return true;
         } catch (\Exception $exe) {
