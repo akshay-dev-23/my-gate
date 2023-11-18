@@ -40,7 +40,8 @@ class UserController extends Controller
         ]);
         if ($validator->fails())
             throw new Exception($validator->errors()->first(), Response::HTTP_BAD_REQUEST);
-        $user = User::where(['society_id' => auth()->user()->society_id])->find($request->user_id);
+        $auth = Auth::user();
+        $user = User::societyUser($auth->society_id, $auth->id)->whereId($request->user_id)->first();
         if (!$user) throw new Exception("Record not found", Response::HTTP_NOT_FOUND);
         $user->verified = $request->verify;
         $user->save();
