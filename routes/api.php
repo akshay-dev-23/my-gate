@@ -1,8 +1,11 @@
 <?php
 
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\CommentController;
 use App\Http\Controllers\Api\OtpController;
+use App\Http\Controllers\Api\PostController;
 use App\Http\Controllers\Api\UserController;
+use App\Http\Controllers\ImageController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -31,4 +34,8 @@ Route::middleware(['auth:api'])->group(function () {
         Route::post('verify-user', [UserController::class, 'verifyUser']);
     });
     Route::get('user/auth', [UserController::class, 'authUser']);
+    Route::resource('posts', PostController::class)->except(['create']);
+    Route::post('posts/{post}/like', [PostController::class, 'like']);
+    Route::resource('posts/{post}/comments', CommentController::class)->only(['index', 'store','destroy']);
+    Route::post('upload/image', [ImageController::class, 'upload']);
 });
