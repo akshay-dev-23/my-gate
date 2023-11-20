@@ -50,7 +50,8 @@ class PostController extends Controller
             'title' => $request->input('title'),
             'content' => $request->input('content'),
             'admin_notice' => $request->input('admin_notice', false),
-            'media' => $request->input('media', [])
+            'media' => $request->input('media', []),
+            'likes' => 0
         ]);
         // notify all society member for the post
         SocietyNotification::notifyPostCreated();

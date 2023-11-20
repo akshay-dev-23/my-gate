@@ -14,11 +14,11 @@ class PostResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-         return [
+        return [
             'id' => $this->id,
             'title' => $this->title,
             'content' => $this->content,
-            'likes' => $this->likes,
+            'likes' => $this->likes ?? 0,
             'admin_notice' => $this->admin_notice,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
