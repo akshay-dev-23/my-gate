@@ -62,12 +62,12 @@ class PostController extends Controller
         $user = auth()->user();
         if ($post->userHasLiked($user->id)) {
             // User has liked the post, so unlike it
-            $post->likes()->where('user_id', $user->id)->delete();
+            $post->liked()->where('user_id', $user->id)->delete();
             // Decrement the likes count in the posts table
             $post->decrement('likes');
             return $this->successResponse("Like removed.");
         } else {
-            $post->likes()->create(['user_id' => $user->id]);
+            $post->liked()->create(['user_id' => $user->id]);
 
             // Increment the likes count in the posts table
             $post->increment('likes');
