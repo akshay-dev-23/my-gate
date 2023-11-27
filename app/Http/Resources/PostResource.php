@@ -22,6 +22,7 @@ class PostResource extends JsonResource
             'admin_notice' => $this->admin_notice,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
+            'media' => $this->media
         ];
     }
 }
