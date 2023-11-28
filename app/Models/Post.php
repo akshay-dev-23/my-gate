@@ -32,6 +32,6 @@ class Post extends Model
     // Check if the current user has liked the post
     public function userHasLiked($user_id)
     {
-        return $this->likes()->where('user_id', $user_id)->exists();
+        return $this->liked()->where('user_id', $user_id)->exists();
     }
 }
