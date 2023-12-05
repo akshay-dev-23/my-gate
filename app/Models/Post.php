@@ -37,7 +37,8 @@ class Post extends Model
 
     public function scopeNoticeFilter($query,  $request)
     {
-        if (is_bool($request->admin_notice) and $request->admin_notice) {
+        $is_admin_notice = (bool)$request->admin_notice;
+        if ($is_admin_notice) {
             $query->where('admin_notice', true);
         } else {
             $query->where('admin_notice', false);
