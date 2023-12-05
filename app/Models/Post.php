@@ -39,6 +39,8 @@ class Post extends Model
     {
         if (is_bool($request->admin_notice) and $request->admin_notice) {
             $query->where('admin_notice', true);
+        } else {
+            $query->where('admin_notice', false);
         }
         return $query;
     }
