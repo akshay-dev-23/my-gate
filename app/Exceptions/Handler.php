@@ -28,29 +28,29 @@ class Handler extends ExceptionHandler
     {
 
         $this->renderable(function (Exception $exc, Request $request) {
-            // if ($request->is('api/*')) {
-            //     $message = '';
-            //     if ($exc instanceof \Illuminate\Auth\AuthenticationException) {
-            //         $message = 'Unauthenticated.';
-            //         $code = 401;
-            //     }
-            //     else if($exc instanceof \Symfony\Component\HttpKernel\Exception\NotFoundHttpException){
-            //         $message = "Record not found.";
-            //         $code = 404;
-            //     }
-            //     else if ($exc->getCode() == 0 || $exc->getCode() == 500 || $exc->getCode() == null) {
-            //         $message = "Something went wrong. Please try again later.";
-            //         $code = 500;
-            //     } else {
-            //         $message = $exc->getMessage();
-            //         $code = $exc->getCode();
-            //     }
-            //     return response()->json([
-            //         'message' => $message,
-            //         'data' => [],
-            //         'status_code' => $code
-            //     ], (int)$code);
-            // }
+            if ($request->is('api/*')) {
+                $message = '';
+                if ($exc instanceof \Illuminate\Auth\AuthenticationException) {
+                    $message = 'Unauthenticated.';
+                    $code = 401;
+                }
+                else if($exc instanceof \Symfony\Component\HttpKernel\Exception\NotFoundHttpException){
+                    $message = "Record not found.";
+                    $code = 404;
+                }
+                else if ($exc->getCode() == 0 || $exc->getCode() == 500 || $exc->getCode() == null) {
+                    $message = "Something went wrong. Please try again later.";
+                    $code = 500;
+                } else {
+                    $message = $exc->getMessage();
+                    $code = $exc->getCode();
+                }
+                return response()->json([
+                    'message' => $message,
+                    'data' => [],
+                    'status_code' => $code
+                ], (int)$code);
+            }
         });
     }
 }

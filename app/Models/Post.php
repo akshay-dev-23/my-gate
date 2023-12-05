@@ -34,4 +34,12 @@ class Post extends Model
     {
         return $this->liked()->where('user_id', $user_id)->exists();
     }
+
+    public function scopeNoticeFilter($query,  $request)
+    {
+        if (is_bool($request->admin_notice) and $request->admin_notice) {
+            $query->where('admin_notice', true);
+        }
+        return $query;
+    }
 }
