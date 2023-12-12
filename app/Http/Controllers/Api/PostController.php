@@ -13,7 +13,7 @@ class PostController extends Controller
 {
     public function index(Request $request)
     {
-        $posts = Post::noticeFilter($request)->latest()->paginate($request->record_per_page ?? 10);
+        $posts = Post::with('user')->noticeFilter($request)->latest()->paginate($request->record_per_page ?? 10);
         $response_data = [
             'total_records' => $posts->total(),
             'current_page' => $posts->currentPage(),
